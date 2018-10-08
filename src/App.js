@@ -4,11 +4,10 @@ import styled from 'styled-components'
 import './App.css';
 
 const CustomElement = styled.div `
-  color: green;
   font-size: 30px;
 `
 const BlueElement = CustomElement.extend `
-  color: blue;
+
 `
 
 
