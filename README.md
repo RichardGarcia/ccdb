@@ -1,3 +1,17 @@
+## Few web tech used:
+
+- React
+- Styled-components
+- CSS Grid
+- HighCharts
+- CryptoCompare API
+- JS Async / Await
+- Fuzzy Search
+- Lodash
+- Webkit Inspector
+- localStorage
+- Google fonts
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
