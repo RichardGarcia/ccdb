@@ -5,6 +5,8 @@ import AppBar from '../src/components/AppBar'
 
 import './App.css';
 
+const cc = require('cryptocompare')
+
 const MainContainer = styled.div `
   padding: 10px;
 `
@@ -28,8 +30,17 @@ const checkFirstVisit = () => {
 class App extends Component {
 
   state = {
-    activePage: 'dashboard',
+    activePage: 'settings',
     ...checkFirstVisit()
+  }
+
+  componentDidMount = () => {
+    this.fetchCoins()
+  }
+
+  fetchCoins = async () => {
+    const coinList = (await cc.coinList()).Data
+    this.setState({coinList})
   }
 
   displayDashboard = () => this.state.activePage === 'dashboard'
@@ -59,15 +70,22 @@ class App extends Component {
     )
   }
 
+  loadingContent = () => {
+    if (!this.state.coinList){
+      return <div>loading coin data...</div>
+    }
+  }
+
   render() {
     return (
       <MainContainer>
         {AppBar.call(this)}
-        <MainContentContainer>
-          <h2>{this.state.activePage}</h2>
-          {this.displaySettings() && this.settingsContent()}
-
-        </MainContentContainer>
+        {this.loadingContent() ||
+          <MainContentContainer>
+            <h2>{this.state.activePage}</h2>
+            {this.displaySettings() && this.settingsContent()}
+          </MainContentContainer>
+        }
       </MainContainer>
     )
   }
