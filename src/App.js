@@ -25,39 +25,82 @@ const NavLink = styled.div `
 
 `
 const MainContainer = styled.div `
-  border: 1px solid red;
+  padding: 10px;
 `
 const MainContentContainer = styled.div `
-border: 1px solid red;
 padding: 20px;
 font-size: 1em;
 `
+const checkFirstVisit = () => {
+  let ccDashData = localStorage.getItem('ccDdData');
+  if (!ccDashData) {
+    return {
+      firstVisit: true,
+      activePage: 'settings'
+    }
+  }
+  return {
+
+  }
+}
 
 class App extends Component {
 
   state = {
-    activePageTitle: 'dashboard'
+    activePage: 'dashboard',
+    ...checkFirstVisit()
   }
 
-  displayDashboard = () => this.state.activePageTitle === 'dashboard'
-  displaySettings = () => this.state.activePageTitle === 'settings'
+  displayDashboard = () => this.state.activePage === 'dashboard'
+  displaySettings = () => this.state.activePage === 'settings'
+  firstVisitMessage = () => {
+    if (this.state.firstVisit) {
+      return (<h3>Welcome to CcDb Settings page. Please select your favorite coins. (max 5)</h3>)
+    }
+  }
+
+  confirmFavorites = () => {
+    localStorage.setItem('ccDdData','test')
+    this.setState ({
+      firstVisit: false,
+      activePage: 'dashboard'
+    })
+  }
+
+  settingsContent = () => {
+    return (
+      <div>
+        {this.firstVisitMessage()}
+        <button onClick={this.confirmFavorites}>
+          Confirm fav coins
+        </button>
+      </div>
+    )
+  }
 
   render() {
     return (
       <MainContainer>
         <NavContainer>
           <LogoContainer>
-            Welcome to CcDb
+            CcDb - Cryptocurrency Dashboard
           </LogoContainer>
-          <NavLink onClick={() => { this.setState({ activePageTitle: 'dashboard' }) }} active={this.displayDashboard()}>
-            Dashboard
-          </NavLink>
-          <NavLink onClick={() => { this.setState({ activePageTitle: 'settings' }) }} active={this.displaySettings()}>
-            Settings
-          </NavLink>
+          {!this.state.firstVisit &&
+          <>
+            <NavLink onClick={() => { this.setState({ activePage: 'dashboard' }) }} active={this.displayDashboard()}>
+              Dashboard
+            </NavLink>
+
+            <NavLink onClick={() => { this.setState({ activePage: 'settings' }) }} active={this.displaySettings()}>
+              Settings
+            </NavLink>
+          </>
+          }
         </NavContainer>
         <MainContentContainer>
-          <h2>{this.state.activePageTitle}</h2>
+          <h2>{this.state.activePage}</h2>
+          {this.displaySettings() && this.settingsContent()}
+
         </MainContentContainer>
       </MainContainer>
     )
