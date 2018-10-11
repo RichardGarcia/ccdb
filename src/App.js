@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import AppBar from '../src/components/AppBar'
+import CoinList from '../src/components/CoinList'
 
 import './App.css';
 
@@ -61,12 +62,17 @@ class App extends Component {
 
   settingsContent = () => {
     return (
-      <div>
-        {this.firstVisitMessage()}
-        <button onClick={this.confirmFavorites}>
-          Confirm fav coins
-        </button>
-      </div>
+      <>
+        <div>
+          {this.firstVisitMessage()}
+          <button onClick={this.confirmFavorites}>
+            Confirm fav coins
+          </button>
+        </div>
+        <div>
+          {CoinList.call(this)}
+        </div>
+      </>
     )
   }
 
